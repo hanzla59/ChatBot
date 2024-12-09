@@ -30,7 +30,9 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 //     res.status(500).json({ error: 'Failed to generate content' });
 //   }
 // });
-
+app.get('/', (req, res) => {
+  res.send('Hello from the backend!');
+})
 app.post('/generate', async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -42,7 +44,7 @@ app.post('/generate', async (req, res) => {
     // Add context to the user's input
     const mentalHealthContext = `
       You are a mental health assistant. Respond to user prompts in a way that supports their mental well-being. 
-      Ask questions to understand their mental state and provide short, concise responses (5-8 lines) with actionable advice. 
+      Ask questions to understand their mental state and provide short, concise responses (5-6 lines) with actionable advice. 
       Avoid mentioning helpline numbers, specific departments, or unrelated topics. Always respond empathetically.
     `;
     const contextualPrompt = `${mentalHealthContext}\nUser: ${prompt}`;
@@ -64,9 +66,12 @@ app.post('/generate', async (req, res) => {
 
 
 
-// Vercel requires this specific export
-// module.exports = app;
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Vercel requires this specific export
+module.exports = app;
